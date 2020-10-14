@@ -1,0 +1,47 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+
+{% block title_block %}{{title}}{% endblock  %}
+
+{% block css_block %}
+<style>
+        .login{
+            width:300px;
+            height:310px;
+            border: 5px solid #218838;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .signup{
+            width:350px;
+            border: 5px solid #218838;
+            border-radius: 5px;
+        }
+
+    </style>
+{% endblock  %}
+
+{% block body_block %}
+<img style="margin-bottom:15px" src="/media/banner.jpg">
+<center>
+    
+    <div class='login'>
+    <h3 style="color:#218838"> User Login </h3><hr>
+        <form method='POST'>
+            {{form|crispy}}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm" style="width:100%"><h6>Login</h6></button>
+        </form>
+        <hr>
+    </div>
+    <br>
+    <div class='signup' style="padding-top:10px">
+        <p>Don't Have An Account Yet? Please <a href="{% url 'App_Login:signup'%}">Sign-Up</a></p>
+    </div>
+</center>
+<br><br><br>
+{% endblock  %}
+
+{% block footer_block %}
+    <footer><p align="center" style="color:white">All Right Reserved DIU PRS @2020. This project developed by <span style="color:#62E870">Md. Manir Hossain</span> and <span style="color:#62E870">Nurunnahar Nipa</span></p></footer>
+{% endblock%}

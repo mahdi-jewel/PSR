@@ -1,0 +1,59 @@
+{% extends 'navbar.html' %} {% block title_block %} {{title}} {% endblock %} {% block body_block %}
+<h5>Your Search Matched With:
+</h5> <br> {% if search %} {% for user in result %}
+<div class='row'>
+    <div class='col-sm-1'>
+        {% if user.user_profile.profile_pic %}
+        <img class="rounded-circle" src="/media/{{user.user_profile.profile_pic}}" width="70px" height="70px"><br> {% else %}
+        <img class="rounded-circle" src="/media/default.png" width="70px" height="70px"><br> {% endif %}
+    </div>
+    <div class='col-sm-11'>
+        <br>
+        <a href="{% url 'App_Login:user' username=user.username%}">
+            <h5>{{user.username}}
+            </h5>
+        </a>
+        <br>
+    </div>
+</div>
+<br> {% endfor %}
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> {% else %}
+<div class="row">
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-8" style="background-color:#ffffff; border: 1px solid #888888;">
+        {% for post in posts %}
+        <div style="border: 1px solid #888888; margin-top:15px;">
+            <div style="padding:10px">
+                {% if post.author.user_profile.profile_pic %}
+                <img class="rounded-circle" src="/media/{{post.author.user_profile.profile_pic}}" width="50px" height="50px"> {% else %}
+                <img class="rounded-circle" src="/media/default.png" width="70px" height="70px"> {% endif %}
+                <a href="{% url 'App_Login:user' username=post.author%}" style="font-size:20px; ">&nbsp;{{post.author}}</a>
+                <br><i style="font-size:12px; color:#545955">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{post.upload_date}}</i>
+                <hr>
+                <hr>
+
+            </div>
+            <br>
+            <img src="/media/{{post.image}}" width="100%" height="400px">
+            <div style="padding:20px">
+                <span style="font-size:20px">{{ post.caption}}</span><br><br>
+                <span style="font-size:15px"> {{ post.liked_post.count}} likes </span><br> {% if post.pk in liked_post_list %}
+                <a href="{% url 'App_Post:unlike' pk=post.pk%}"><i class="fa fa-heart" style="font-size:36px; color:#AD031D"></i></a> {% else %}
+                <a href="{% url 'App_Post:like' pk=post.pk%}"><i class="fa fa-heart-o" style="font-size:30px; color:#AD031D"></i></a> {% endif %}
+            </div>
+        </div>
+        <br>
+        <hr><br> {% endfor %}
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+
+
+{% endif %}
+<br> {% endblock body_block %} {% block footer_block %}
+<footer>
+    <p align="center" style="color:white">All Right Reserved DIU PRS @2020. This project developed by <span style="color:#62E870">Md. Manir Hossain</span> and <span style="color:#62E870">Nurunnahar Nipa</span></p>
+</footer>
+{% endblock%}

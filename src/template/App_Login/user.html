@@ -1,0 +1,171 @@
+{% extends 'navbar.html' %}
+
+{% block title_block %} {{user.username}} {% endblock%}
+
+{% block css_block %}
+        <style>
+            .profile{
+                     height: 380px;
+                     width: 430px;
+                     border: 1px solid #138496;
+                     border-radius: 10px;
+                     }
+
+             .crop{
+                     width: 370px;
+                     height: 220px;
+                     overflow: hidden;
+                     }
+              .crop img{
+                      width:38
+                      0px;
+                      height:280px;
+                      margin: 5px 0px 0px 30px;
+                      }
+
+              table.greenTable {
+                      font-family: arial;
+                      border: 2px solid #F58418;
+                      background-color: #129C56;
+                      width: 100%;
+                      height: 100px;
+                      }
+
+              table.greenTable td, table.greenTable th {
+                      border: 1px solid #F58418;
+                      padding: 5px 5px;
+                      }
+
+
+              table.greenTable thead {
+                      background: #129C56;
+                      background: -moz-linear-gradient(top, #5baf6b 0%, #3a9e4d 66%, #24943A 100%);
+                      background: -webkit-linear-gradient(top, #5baf6b 0%, #3a9e4d 66%, #24943A 100%;
+                      background: linear-gradient(to bottom, #5baf6b 0%, #3a9e4d 66%, #24943A 100%);
+                      border-bottom: 0px solid #444444;
+                      }
+
+              table.greenTable thead th {
+                      font-size: 20px;
+                      text-align: left;
+                      }
+
+              table.greenTable thead th:first-child {
+                      border-left: none;
+                      }
+        </style>
+{% endblock css_block %}
+
+{% block body_block %}
+
+<div class="row">
+<div class="col-sm-4">
+{% if oj_info %}
+      {% for u in oj_info %}
+        {% if request.user == u.user %}
+        
+        <table class="greenTable">
+        <thead>
+          <tr>
+            <th style="color:white">Ranking</th>
+            <th style="color:white">{{forloop.counter}}</th>
+          </tr>
+          <tr>
+            <th style="color:white">UVA Username</th>
+            <th style="color:white">{{u.uva_username}}</th>
+          </tr>
+          <tr>
+            <th style="color:white">Codeforces Username</th>
+            <th style="color:white">{{u.codeforces_username}}</th>
+          </tr>
+          
+          <tr>
+            <th style="color:white">UVA Submission</th>
+            <th style="color:white">{{u.uva_submission}}</th>
+          </tr>
+          <tr>
+            <th style="color:white">Codeforces Submission</th>
+            <th style="color:white">{{u.codeforces_submission}}</th>
+          </tr>
+          <tr>
+            <th style="color:white">Total Solved</th>
+            <th style="color:white">{{u.total_submission}}</th>
+          </tr>
+          </thead>
+        </table>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+</div>
+<div class="col-sm-1"></div>
+<div class="col-sm-3">
+  <center>
+    <div class='profile' style="background-color:#ffffff">
+        {% if user.user_profile.profile_pic %}
+           <img class="rounded-circle" src="/media/{{user.user_profile.profile_pic}}" width="150px" height="150px">
+        {% else %}
+            <img class="rounded-circle" src="/media/default.png" width="150px" height="150px" adius="50%">
+
+        {% endif %}
+    
+            <h3 style="text-align:center">{{user.username}}</h3>
+            <h6 style="color:#C83C30"><b>{{user.post.count}} posts &nbsp;||&nbsp; {{user.following.count}} followers &nbsp;||&nbsp; {{user.follower.count}} Following</b></h6><hr>
+
+            <i>{{user.user_profile.description|linebreaks}}</i>
+            <hr>
+            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">New Post</button>
+            <a class="btn btn-sm btn-warning" href="{% url 'App_Login:edit'%}" >Edit Profile</a>
+    </div>
+    <br>    
+  </center>
+</div>
+
+</div>
+  
+
+<div class="container">
+  <!-- Trigger the modal with a button -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Post a Photo</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <form method='POST' enctype="multipart/form-data">
+          {{form.as_p}}
+          {% csrf_token %}
+          <button type="submit" class="btn btn-info btn-md">Post</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-md" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+
+<div class="container">
+<hr><h3 align="center" style="color:#C83C30">Posts of this User</h3><hr>
+{% for post in user.post.all%}  <!--using related_name-->
+        <div class="crop">
+        <img src="/media/{{post.image}}" title="{{post.caption}}">
+        </div>
+        
+{% endfor %}
+</div>
+<br><hr><hr>
+
+{% endblock body_block %}
+
+{% block footer_block %}
+    <footer><p align="center" style="color:white">All Right Reserved DIU PRS @2020. This project developed by <span style="color:#62E870">Md. Manir Hossain</span> and <span style="color:#62E870">Nurunnahar Nipa</span></p></footer>
+{% endblock%}

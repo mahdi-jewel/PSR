@@ -1,0 +1,114 @@
+{% extends 'navbar.html' %}
+
+{% block css_block %}
+  <style>
+  table.blueTable {
+  border: 3px solid #1C6EA4;
+  background-color: #EEEEEE;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+table.blueTable td, table.blueTable th {
+  border: 2px solid #AAAAAA;
+  padding: 5px 3px;
+}
+table.blueTable tbody td {
+  font-size: 20px;
+}
+table.blueTable tr:nth-child(even) {
+  background: #ffffff;
+}
+table.blueTable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-size: 22px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+table.blueTable thead th:first-child {
+  border-left: none;
+}
+
+table.blueTable tfoot {
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #D0E4F5;
+  background: -moz-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: -webkit-linear-gradient(top, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  background: linear-gradient(to bottom, #dcebf7 0%, #d4e6f6 66%, #D0E4F5 100%);
+  border-top: 2px solid #444444;
+}
+table.blueTable tfoot td {
+  font-size: 14px;
+}
+table.blueTable tfoot .links {
+  text-align: center;
+}
+table.blueTable tfoot .links a{
+  display: inline-block;
+  background: #1C6EA4;
+  color: #FFFFFF;
+  padding: 3px 8px;
+  border-radius: 5px;
+}
+  </style>
+{% endblock  %}
+
+{% block body_block %}
+
+<div class="container">
+  <h2 align="center" style="color:#0089D2"> Leader Board</h2><hr>
+  <table class="blueTable">
+<thead>
+<tr>
+  <th>Position</th>
+  <th>Avatar</th>
+  <th>Username</th>
+  <th>Uva Submission</th>
+  <th>Codeforces Submission</th>
+  <th>Total Submission</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<td colspan="6">
+<div class="links"><a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">&raquo;</a></div>
+</td>
+</tr>
+</tfoot>
+<tbody style="font-size:30px">
+{% for s in standings %}
+                <tr align="center">
+                <td>{{forloop.counter}}</td>
+                {% for p in profiles %}
+                  {% if s.user.username == p.user.username %}
+                    <td><img class="rounded-circle" src={{p.profile_pic.url}} width="40px" height="40px"></td>
+                  {% endif %}
+                {% endfor %}
+                <td><a href="#">{{s.user.username}}</a></td>
+                <td>{{s.uva_submission}}</td>
+                <td>{{s.codeforces_submission}}</td>
+                <td>{{s.uva_submission|add:s.codeforces_submission}}</td>
+                </tr>
+          {% endfor %}
+</tbody>
+</table>    
+<br>
+<br>
+</div>
+
+</body>
+
+{% endblock  %}
+
+{% block footer_block %}
+    <footer><p align="center" style="color:white">All Right Reserved DIU PRS @2020. This project developed by <span style="color:#62E870">Md. Manir Hossain</span> and <span style="color:#62E870">Nurunnahar Nipa</span></p></footer>
+{% endblock%}
